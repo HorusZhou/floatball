@@ -1,0 +1,20 @@
+{
+  "name": "floatball/floatball",
+  "type": "library",
+  "description": "composer demo test",
+  "keywords": ["horus"],
+  "homepage": "",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "horus zhou",
+      "email": "1062361090@qq.com",
+      "homepage": "https://zhouhy.net",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.1.0"
+  }
+  }
+}

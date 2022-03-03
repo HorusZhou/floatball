@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<title>{$gameName}</title>
+		<script src="https://static-cdn.llewan.com/h5/wxgzh/jquery-3.5.1.min.js"></script>
+		<script src="./dragscroll.js"></script>
+		<style type="text/css">
+			.red-circle {
+				display:block;
+				background:#f00;
+				border-radius:4px;
+				width:8px;
+				height:8px;
+				top:0rem;
+				right:0rem;
+				position:absolute;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div class="drag-box">
+		    <div class="drag">
+		        jQuery是一个快速、简洁的JavaScript框架......
+		    </div>
+		</div>
+		<div style="position: relative;z-index: 999;">
+			<div id="float-window" class="lewan-float-ball" style="width: 3rem;height: 3rem;position: absolute;top: 6rem;left: -0.75rem;right: 0;opacity:0.7;" >
+				<i class="red-circle"></i>
+				<img style="width: 3rem;height: 3rem;" src="https://static-cdn.llewan.com/app_game/images/lewan_icon.png" alt="进入客服">
+			</div>
+		</div>
+			
+	</body>
+	<script type="text/javascript">
+		
+		
+		let shakeSuccess = false;
+		if(window.DeviceMotionEvent) {
+		    var speed = 30;    // 用来判定的加速度阈值，太大了则很难触发
+		    var x, y, z, lastX, lastY, lastZ;
+		    x = y = z = lastX = lastY = lastZ = 0;
+			
+			window.addEventListener('devicemotion', function(event){
+				var acceleration = event.accelerationIncludingGravity;
+				x = acceleration.x;
+				y = acceleration.y;
+				if(!shakeSuccess && (Math.abs(x-lastX) > speed || Math.abs(y-lastY) > speed)) {
+					shakeSuccessHandle();
+				}
+				lastX = x;
+				lastY = y;
+			}, false);
+			initDialog('float-window',10000,function(){
+				$.toast({content:'摇晃手机可召唤悬浮球',time:1500});
+			}); //10s后隐藏
+		} else {
+			console.warn("Not supported on your device.");
+			initDialog('float-window');
+		}
+		
+		function shakeSuccessHandle()
+		{
+			if(window.navigator.vibrate) {
+				navigator.vibrate(300);
+				$('#float-window').show();
+				shakeSuccess = true;
+				setTimeout(function(){
+					shakeSuccess = false;
+				}, 2000);
+			}
+		}
+	</script>
+	
+	<script>
+	  (function (w, d, e, x) {
+	    w[e] = function () {
+	      w.cbk = w.cbk || []
+	      w.cbk.push(arguments);
+	    }
+	    x = d.createElement('script');
+	    x.async = true;
+	    x.id = 'zhichiScript';
+	    x.className = 'lewan-float-ball',  //该class可自行设置，只需要在使用的自定义入口上同名即可
+	      x.src = 'https://llewan.sobot.com/chat/frame/v2/entrance.js?sysnum=a0ca394f440d46c2a896bca608176c99';
+	    d.body.appendChild(x);
+	  })(window, document, 'zc');
+	
+	  zc('config', {
+	    //设置自定义按钮生效
+	    custom: true,
+	    channelid: 3
+	  })
+	</script>
+	
+</html>
